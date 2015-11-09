@@ -11,7 +11,7 @@ import (
 	"math"
 )
 
-// RoundInt rounds a base 10 int64 to the given precision. Precision is a
+// RoundInt rounds a base ten int64 to the given precision. Precision is a
 // negative number that represents the nearest power of ten to which the 
 // integer should be rounded. It is expressed as a negative number to be 
 // consistent with the decimal precision arguments used in rounding floats.
@@ -56,7 +56,7 @@ func RoundInt(x int64, power int) int64 {
 	return int64(math.Copysign(ar, y))
 }
 
-// RoundFloat rounds a base 10 float64 to the given decimal precision.
+// RoundFloat rounds a base ten float64 to the given decimal precision.
 // Precision may be positive, representing the number of decimal places,
 // or negative, representing the nearest power of ten to which the float 
 // should be rounded.

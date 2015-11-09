@@ -4,7 +4,6 @@ formatting base ten numbers. These are functions that are either
 missing from the standard libraries or are more convenient for
 presenting numbers as a human would read them.
 */
-
 package decimals
 
 import (

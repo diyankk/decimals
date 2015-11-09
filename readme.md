@@ -2,7 +2,7 @@
 Decimals is a small library of functions for rounding and formatting base ten numbers in Go. These are functions that are either missing from the standard libraries or are more convenient for formatting numbers as a human would read them.
 
 ### Installation
-Install with go get.
+Install with `go get`.
 
 ```sh
 go get github.com/olihawkins/decimals

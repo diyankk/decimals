@@ -1,5 +1,5 @@
 # decimals
-Decimals is a small library of functions for rounding and formatting base ten numbers in Go. These are functions that are either missing from the standard libraries or are more convenient for formatting numbers as a human would read them.
+Decimals is a small library of functions for rounding and formatting base ten numbers in Go. These are functions that are either missing from the standard libraries or are more convenient for presenting numbers in a human-readable format.
 
 ### Installation
 Install with `go get`.

@@ -176,7 +176,7 @@ func FormatFloat(x float64, precision int) string {
 	i, f := math.Modf(r)
 	is := FormatThousands(int64(i))
 
-	// If precision in less than one return the formatted integer part
+	// If precision is less than one return the formatted integer part
 	if precision <= 0 {
 
 		return is

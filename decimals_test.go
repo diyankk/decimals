@@ -7,7 +7,7 @@ import(
 // Test RoundInt with a range of values
 func TestRoundInt(t *testing.T) {
 
-	inputs := []int64 {
+	inputs := []int64{
 		4,
 		49,
 		449,
@@ -34,9 +34,9 @@ func TestRoundInt(t *testing.T) {
 		-555551,	
 	}
 
-	precisions := []int {0, -1, -2, -3, -4, -5}
+	precisions := []int{0, -1, -2, -3, -4, -5}
 
-	expected := []int64 {
+	expected := []int64{
 		4, 0, 0, 0, 0, 0,
 		49, 50, 0, 0, 0, 0,
 		449, 450, 400, 0, 0, 0,
@@ -83,11 +83,11 @@ func TestRoundInt(t *testing.T) {
 // Test RoundFloat with a range of values
 func TestRoundFloat(t *testing.T) {
 
-	inputs := []float64 {5.123456789, -5.123456789}
+	inputs := []float64{5.123456789, -5.123456789}
 
-	precisions := []int {-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+	precisions := []int{-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 
-	expected := []float64 {
+	expected := []float64{
 		0.0,
 		10.0,
 		5.0,
@@ -133,7 +133,7 @@ func TestRoundFloat(t *testing.T) {
 // Test FormatThousands with a range of values
 func TestFormatThousands(t *testing.T) {
 
-	inputs := []int64 {
+	inputs := []int64{
 		10,
 		100,
 		1000,
@@ -154,7 +154,7 @@ func TestFormatThousands(t *testing.T) {
 		-1000000000,
 	}
 
-	expected := []string {
+	expected := []string{
 		"10",
 		"100",
 		"1,000",
@@ -190,11 +190,11 @@ func TestFormatThousands(t *testing.T) {
 // Test FormatInt with a range of values
 func TestFormatInt(t *testing.T) {
 
-	inputs := []int64 {444449, -444449, 555551, -555551}
+	inputs := []int64{444449, -444449, 555551, -555551}
 
-	precisions := []int {0, -1, -2, -3, -4, -5}
+	precisions := []int{0, -1, -2, -3, -4, -5}
 
-	expected := []string {
+	expected := []string{
 		"444,449", "444,450", "444,400", "444,000", "440,000", "400,000",
 		"-444,449", "-444,450", "-444,400", "-444,000", "-440,000", "-400,000",
 		"555,551", "555,550", "555,600", "556,000", "560,000", "600,000",
@@ -220,14 +220,14 @@ func TestFormatInt(t *testing.T) {
 // Test FormatFloat with a range of values
 func TestFormatFloat(t *testing.T) {
 
-	inputs := []float64 {5555555.123456789, -5555555.123456789}
+	inputs := []float64{5555555.123456789, -5555555.123456789}
 
-	precisions := []int {
+	precisions := []int{
 		-7, -6, -5, -4, -3, -2, -1, 0, 
 		1, 2, 3, 4, 5, 6, 7, 8, 9,
 	}
 
-	expected := []string {
+	expected := []string{
 		"10,000,000",
 		"6,000,000",
 		"5,600,000",

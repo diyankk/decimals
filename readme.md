@@ -12,7 +12,7 @@ go get github.com/olihawkins/decimals
 Use `go test` to run the tests.
 
 ### Documentation
-See the [godoc][gd] for the full documentation.
+See the [GoDoc][gd] for the full documentation.
 
 ### Rounding
 Round int64 and float64 numbers.

@@ -58,6 +58,3 @@ f := decimals.FormatFloat(5555.555, -1) // f = "5,560"
 f := decimals.FormatFloat(5555.555, -2) // f = "5,600"
 ```
    [gd]: <https://godoc.org/github.com/olihawkins/decimals>
-
-
-

@@ -9,7 +9,6 @@ package decimals
 import (
 	"strconv"
 	"math"
-	"fmt"
 )
 
 // RoundInt rounds a base ten int64 to the given precision. Precision is a
@@ -125,33 +124,6 @@ func RoundInt(x int64, precision int) int64 {
 	r, _ := strconv.ParseInt(rstr, 10, 64)
 	
 	return r
-}
-
-// parseIntFromDigit takes a byte representing a decimal character and returns
-// the value as an int64. The function will return an error if the byte cannot
-// be cast to a decimal integer with with strconv.ParseInt().
-func parseIntFromDigit(b byte) (int64, error) {
-
-	x, err  := strconv.ParseInt(string(b), 10, 64)
-	
-	if err != nil {
-		return 0, err
-	}
-	
-	return x, nil
-}
-
-// getDigitFromInt takes an int64 between 0-9 and returns the byte for
-// its string representation. The function will return an error if the
-// integer is outside this range.
-func getDigitFromInt(x int64) (byte, error) {
-
-	if x < 0 || x > 9 {
-		return []byte(strconv.FormatInt(0, 10))[0], 
-			fmt.Errorf("decimals: %d is not a digit between 0 and 9", x)
-	}
-
-	return []byte(strconv.FormatInt(x, 10))[0], nil
 }
 
 // RoundFloat rounds a base ten float64 to the given decimal precision.

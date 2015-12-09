@@ -32,11 +32,11 @@ i := decimals.RoundInt(555, -3) // i = 1000
 ```
 Round a float to the given number of decimal places using a positive value for precision, or to the nearest power of ten using a negative value for precision.
 ```go
-f := decimals.RoundFloat(55.555, 2)  // f = 55.56
-f := decimals.RoundFloat(55.555, 1)  // f = 55.6
-f := decimals.RoundFloat(55.555, 0)  // f = 56
-f := decimals.RoundFloat(55.555, -1) // f = 60
-f := decimals.RoundFloat(55.555, -2) // f = 100
+f := decimals.RoundFloat(5.5555, 3)  // f = 5.556
+f := decimals.RoundFloat(5.5555, 2)  // f = 5.56
+f := decimals.RoundFloat(5.5555, 1)  // f = 5.6
+f := decimals.RoundFloat(5.5555, 0)  // f = 6
+f := decimals.RoundFloat(5.5555, -1) // f = 10
 ```
 
 ### Formatting

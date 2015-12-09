@@ -9,51 +9,149 @@ package decimals
 import (
 	"strconv"
 	"math"
+	"fmt"
 )
 
 // RoundInt rounds a base ten int64 to the given precision. Precision is a
 // negative number that represents the nearest power of ten to which the 
 // integer should be rounded. It is expressed as a negative number to be 
 // consistent with the decimal precision arguments used in rounding floats.
-func RoundInt(x int64, power int) int64 {
+// If the rounded number falls outside the minimum and maximum for int64
+// the minimum or maximum will be returned instead.
+func RoundInt(x int64, precision int) int64 {
 
-	var r float64
+	var(
+		xstr string = strconv.FormatInt(x, 10)
+		xslice = []byte(xstr)
+		zeroFrom int = -1
+		roundFrom int
+	)
 
-	// Ensure power is not positive then invert
-	if power > 0 {
-		
-		power = 0
+	// Map for converting decimal bytes to int64
+	decimalInts := map[byte]int64{
+		'0': 0, '1': 1, '2': 2, '3': 3, '4': 4,
+		'5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+	}	
+
+	// Array for converting decimal ints to bytes
+	decimalBytes := []byte{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',}	
+
+	// If precision is not negative return x
+	if precision > -1 {
+
+		return x
 	}
 
-	power = -power
+	// If x is negative remove the sign
+	if x < 0 {
 	
-	// Get the absolute value of x
-	y := float64(x)
-	a := math.Abs(y)
-
-	// Scale down the integer to a float for rounding
-	pow := float64(power)
-	p := math.Pow(10, pow)
-	s := float64(a) / p
-
-	// Get the fractional part to be rounded
-	_, f := math.Modf(s)
+		xslice = xslice[1:]
+	}
 	
-	// Round up or down appropriately
-	if f >= 0.5 {
+	// Set the index of the digit to round from
+	roundFrom = len(xslice) + precision
+
+	// If rounding to more than one order of magnitude larger than x return 0 
+	if roundFrom < 0 {
+	
+		return 0
+	}
+
+	// If rounding to one order of magnitude larger than x round from first digit
+	if roundFrom == 0 {
+	
+		firstDigit := decimalInts[xslice[0]]
 		
-		r = math.Ceil(s)
+		if firstDigit < 5 {
+				
+			return 0
+		
+		} else {
+				
+			xslice = append([]byte{'1'}, xslice...)
+			zeroFrom = 1
+		}
 	
+	// Otherwise round through the slice from right to left	
 	} else {
+	
+		// Start rounding from the round digit
+		roundDigit := decimalInts[xslice[roundFrom]]
+	
+		// If less than five round from there
+		if roundDigit < 5 {
+	
+			zeroFrom = roundFrom
+	
+		// Otherwise keep moving left to find the rounding point
+		} else {
+	
+			for i := roundFrom; i > 0; i-- {
+			
+				j := i - 1
+				nextDigit := decimalInts[xslice[j]]
 		
-		r = math.Floor(s)
+				if nextDigit < 9 {
+			
+					xslice[j] = decimalBytes[nextDigit + 1]
+					zeroFrom = i
+					break
+				}
+			}
+		
+			// If not found add a leading one and round from there
+			if zeroFrom == -1 {
+		
+				xslice = append([]byte{'1'}, xslice...)
+				zeroFrom = 1
+			}
+		}
 	}
 	
-	// Multiply by the scaling term to return to the original magnitude
-	ar := r * p
+	// Zero all digits after the rounding point
+	for i := zeroFrom; i < len(xslice); i++ {
+		
+		xslice[i] = '0'
+	} 
+	
+	// If x is negative add the sign back
+	if x < 0 {
+		
+		xslice = append([]byte("-"), xslice...)
+	}
+	
+	// Convert the slice back to an int64
+	rstr := string(xslice)
+	r, _ := strconv.ParseInt(rstr, 10, 64)
+	
+	return r
+}
 
-	// Add the sign back and return as int
-	return int64(math.Copysign(ar, y))
+// parseIntFromDigit takes a byte representing a decimal character and returns
+// the value as an int64. The function will return an error if the byte cannot
+// be cast to a decimal integer with with strconv.ParseInt().
+func parseIntFromDigit(b byte) (int64, error) {
+
+	x, err  := strconv.ParseInt(string(b), 10, 64)
+	
+	if err != nil {
+		return 0, err
+	}
+	
+	return x, nil
+}
+
+// getDigitFromInt takes an int64 between 0-9 and returns the byte for
+// its string representation. The function will return an error if the
+// integer is outside this range.
+func getDigitFromInt(x int64) (byte, error) {
+
+	if x < 0 || x > 9 {
+		return []byte(strconv.FormatInt(0, 10))[0], 
+			fmt.Errorf("decimals: %d is not a digit between 0 and 9", x)
+	}
+
+	return []byte(strconv.FormatInt(x, 10))[0], nil
 }
 
 // RoundFloat rounds a base ten float64 to the given decimal precision.
@@ -62,8 +160,6 @@ func RoundInt(x int64, power int) int64 {
 // should be rounded.
 func RoundFloat(x float64, precision int) float64 {
 	
-	var r float64
-
 	// Handle negative precision with integer rounding
 	if precision < 0 {
 		
@@ -71,31 +167,11 @@ func RoundFloat(x float64, precision int) float64 {
 		return float64(RoundInt(int64(i), precision)) 
 	}
 
-	// Get the absolute value of x
-	a := math.Abs(x)
-	
-	// Scale up the float for rounding
-	p := math.Pow(10, float64(precision))
-	s := a * p
+	// Handle positive precision with strconv.FormatFloat()
+	rstr := strconv.FormatFloat(x, 'f', precision, 64)
+	r, _ := strconv.ParseFloat(rstr, 64)
 
-	// Get the fractional part to be rounded
-	_, f := math.Modf(s)
-	
-	// Round up or down appropriately
-	if f >= 0.5 {
-		
-		r = math.Ceil(s)
-	
-	} else {
-		
-		r = math.Floor(s)
-	}
-
-	// Divide by the scaling term to return to the original magnitude
-	ar := r / p
-
-	// Add the sign back
-	return math.Copysign(ar, x)
+	return r
 }
 
 // FormatThousands converts an int64 into a string formatted using a comma 

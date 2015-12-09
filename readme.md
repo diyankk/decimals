@@ -1,7 +1,7 @@
 # decimals
 Decimals is a small library of functions for rounding and formatting base ten numbers in Go. These are functions that are either missing from the standard libraries or are more convenient for presenting numbers in a human-readable format.
 
-# Version 2.0
+### Version 2.0
 In the original version of this package, integer rounding was performed with mathematical operations. This worked in most cases but produced incorrect results when rounding at or near the minimum and maximum int64 values. The latest version of the library provides the same public interface, but internally uses string representations of decimal numbers in order to produce consistent rounding behaviour across the full range of integer values. If you attempt to round to a number beyond the minimum or maximum int64 values the minimum or maximum is returned instead.
 
 ### Installation

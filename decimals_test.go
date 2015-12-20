@@ -1,6 +1,6 @@
 package decimals
 
-import(
+import (
 	"testing"
 )
 

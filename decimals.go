@@ -21,7 +21,7 @@ func RoundInt(x int64, precision int) int64 {
 
 	var (
 		xstr string = strconv.FormatInt(x, 10)
-		xslice = []byte(xstr)
+		xslice []byte = []byte(xstr)
 		zeroFrom int = -1
 		roundFrom int
 	)

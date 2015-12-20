@@ -19,7 +19,7 @@ import (
 // the minimum or maximum will be returned instead.
 func RoundInt(x int64, precision int) int64 {
 
-	var(
+	var (
 		xstr string = strconv.FormatInt(x, 10)
 		xslice = []byte(xstr)
 		zeroFrom int = -1
